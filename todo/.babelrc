@@ -1,0 +1,14 @@
+{
+  "passPerPreset": true,
+  "plugins": [
+    ["relay", { "artifactDirectory": "./ts/__relay_artifacts__" }],
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-class-properties"
+  ],
+  "presets": [
+    "@babel/preset-react",
+    "@babel/preset-env",
+    "@babel/preset-typescript"
+  ],
+  "ignore": ["node_modules"]
+}
