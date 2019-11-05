@@ -10,8 +10,13 @@
     "lint": "eslint --fix --ext .js,.ts,.tsx"
   },
   "dependencies": {
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react": "^0.0.0-experimental-f6b8d31a7",
+    "react-dom": "^0.0.0-experimental-f6b8d31a7",
+    "react-markdown": "^4.2.2",
+    "react-relay": "^0.0.0-experimental-a1a40b68",
+    "react-router": "^5.1.2",
+    "react-router-config": "^5.1.1",
+    "relay-runtime": "^7.0.0"
   },
   "devDependencies": {
     "@types/jest": "24.0.21",
@@ -20,6 +25,8 @@
     "@types/react-dom": "16.9.3",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
+    "babel-plugin-relay": "^7.0.0",
+    "concurrently": "^5.0.0",
     "eslint": "^6.6.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-plugin-flowtype": "^4.3.0",
@@ -27,9 +34,13 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.2.0",
+    "get-graphql-schema": "^2.1.2",
+    "graphql": "^14.5.8",
     "husky": "^3.0.9",
     "lint-staged": "^9.4.2",
     "react-scripts": "3.2.0",
+    "relay-compiler": "^7.0.0",
+    "relay-compiler-language-typescript": "^10.1.0",
     "typescript": "3.6.4"
   },
   "browserslist": {
