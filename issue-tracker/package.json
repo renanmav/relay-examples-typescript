@@ -20,11 +20,13 @@
     "relay-runtime": "^7.0.0"
   },
   "devDependencies": {
+    "@types/history": "^4.7.3",
     "@types/jest": "24.0.21",
     "@types/node": "12.12.5",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.3",
     "@types/react-relay": "^7.0.0",
+    "@types/react-router-config": "^5.0.1",
     "@types/relay-runtime": "^6.0.9",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
