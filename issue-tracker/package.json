@@ -7,7 +7,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --fix --ext .js,.ts,.tsx"
+    "lint": "eslint --fix --ext .js,.ts,.tsx",
+    "update-schema": "yarn get-graphql-schema -h \"Authorization=bearer $REACT_APP_GITHUB_AUTH_TOKEN\" https://api.github.com/graphql > schema/schema.graphql"
   },
   "dependencies": {
     "react": "^0.0.0-experimental-f6b8d31a7",
