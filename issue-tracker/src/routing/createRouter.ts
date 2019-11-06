@@ -8,9 +8,10 @@ import {
   RouteConfig as DefaultRouteConfig,
   MatchedRoute,
 } from 'react-router-config'
+import { Router, Route, Entry, Prepared } from './RoutingContext'
 
 interface RouteConfig extends DefaultRouteConfig {
-  prepare: (params: {}) => {}
+  prepare: (params: {}) => Prepared
 }
 interface CustomMatchedRoute<T> extends MatchedRoute<T> {
   route: RouteConfig
@@ -32,6 +33,61 @@ export default function createRouter(
   // Find the initial match and prepare it
   const initialMatches = matchRoute(routes, history.location)
   const initialEntries = prepareMatches(initialMatches)
+  let currentEntry = {
+    location: history.location,
+    entries: initialEntries,
+  }
+
+  // maintain a set of subscribers to the active entry
+  let nextId = 0
+  const subscribers = new Map()
+
+  // Listen for location changes, match to the route entry, prepare the entry,
+  // and notify subscribers. Note that this pattern ensures that data-loading
+  // occurs *outside* of - and *before* - rendering.
+  const cleanup = history.listen((location, action) => {
+    if (location.pathname === currentEntry.location.pathname) {
+      return
+    }
+    const matches = matchRoute(routes, location)
+    const entries = prepareMatches(matches)
+    const nextEntry = {
+      location,
+      entries,
+    }
+    currentEntry = nextEntry
+    subscribers.forEach(cb => cb(nextEntry))
+  })
+
+  // The actual object that will be passed on the RoutingContext.
+  const context: Router = {
+    history,
+    get() {
+      return currentEntry
+    },
+    preloadCode(pathname: string) {
+      // preload just the code for a route, without storing the result
+      const matches = matchRoutes(routes, pathname)
+      // @ts-ignore
+      matches.forEach(({ route }) => route.component.load())
+    },
+    preload(pathname: string) {
+      // preload the code and data for a route, without storing the result
+      const matches = matchRoutes(routes, pathname) as CustomMatchedRoute<{}>[]
+      prepareMatches(matches)
+    },
+    subscribe(cb: (arg: Route) => void) {
+      const id = nextId++
+      const dispose = () => {
+        subscribers.delete(id)
+      }
+      subscribers.set(id, cb)
+      return dispose
+    },
+  }
+
+  // Return both the context object and a cleanup function
+  return { cleanup, context }
 }
 
 /**
@@ -52,7 +108,7 @@ function matchRoute(routes: RouteConfig[], location: Location) {
 /**
  * Load the data for the matched route, given the params extracted from the route
  */
-function prepareMatches(matches: CustomMatchedRoute<{}>[]) {
+function prepareMatches(matches: CustomMatchedRoute<{}>[]): Entry[] {
   return matches.map(match => {
     const { route, match: matchData } = match
     const prepared = route.prepare(matchData.params)
@@ -62,6 +118,10 @@ function prepareMatches(matches: CustomMatchedRoute<{}>[]) {
       // @ts-ignore
       route.component.load() // eagerly load
     }
-    return { component: route.component, prepared, routeData: matchData }
+    return {
+      component: route.component,
+      prepared: prepared,
+      routeData: matchData,
+    }
   })
 }
