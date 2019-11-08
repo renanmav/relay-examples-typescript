@@ -14,10 +14,10 @@
     "react": "^0.0.0-experimental-f6b8d31a7",
     "react-dom": "^0.0.0-experimental-f6b8d31a7",
     "react-markdown": "^4.2.2",
-    "react-relay": "^0.0.0-experimental-a1a40b68",
+    "react-relay": "7.0.0",
     "react-router": "^5.1.2",
     "react-router-config": "^5.1.1",
-    "relay-runtime": "^7.0.0"
+    "relay-runtime": "7.0.0"
   },
   "devDependencies": {
     "@types/history": "^4.7.3",
@@ -30,7 +30,7 @@
     "@types/relay-runtime": "^6.0.9",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
-    "babel-plugin-relay": "^7.0.0",
+    "babel-plugin-relay": "7.0.0",
     "concurrently": "^5.0.0",
     "eslint": "^6.6.0",
     "eslint-config-react-app": "^5.0.2",
@@ -45,7 +45,7 @@
     "lint-staged": "^9.4.2",
     "prettier": "^1.18.2",
     "react-scripts": "3.2.0",
-    "relay-compiler": "^7.0.0",
+    "relay-compiler": "7.0.0",
     "relay-compiler-language-typescript": "^10.1.0",
     "typescript": "^3.7.2"
   },

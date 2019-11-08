@@ -25,7 +25,7 @@ interface CustomMatchedRoute<T> extends MatchedRoute<T> {
  */
 export default function createRouter(
   routes: RouteConfig[],
-  options: BrowserHistoryBuildOptions,
+  options?: BrowserHistoryBuildOptions,
 ) {
   // Initialize history
   const history = createBrowserHistory(options)

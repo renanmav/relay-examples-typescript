@@ -1,5 +1,11 @@
-import React, { useContext, useState, useEffect, Suspense } from 'react'
-import { useTransition } from 'react/experimental'
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  Suspense,
+  // @ts-ignore
+  useTransition,
+} from 'react'
 import RoutingContext, { RouteComponentType } from './RoutingContext'
 import ErrorBoundary from '../ErrorBoundary'
 import './RouteRenderer.css'
