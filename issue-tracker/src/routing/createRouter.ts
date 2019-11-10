@@ -19,7 +19,9 @@ export interface RouteConfig {
   exact?: boolean
   strict?: boolean
   component: Resource
-  prepare?: (params: {}) => { [queryName: string]: PreloadedQuery<any> }
+  prepare?: (params: {
+    [key: string]: string
+  }) => { [queryName: string]: PreloadedQuery<any> }
   routes?: RouteConfig[]
 }
 

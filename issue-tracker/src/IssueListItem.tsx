@@ -32,5 +32,5 @@ export default function IssueListItem(props: Props) {
   )
 
   // Describe how to render the data:
-  return <Link to={'/'}>{issue.title}</Link>
+  return <Link to={`/issue/${issue.id}`}>{issue.title}</Link>
 }

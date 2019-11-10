@@ -8,6 +8,9 @@ import PreloadRootQuery, { RootQuery } from './__generated__/RootQuery.graphql'
 import PreloadIssuesQuery, {
   HomeRootIssuesQuery,
 } from './__generated__/HomeRootIssuesQuery.graphql'
+import PreloadIssueDetailRootQuery, {
+  IssueDetailRootQuery,
+} from './__generated__/IssueDetailRootQuery.graphql'
 
 const routes: RouteConfig[] = [
   {
@@ -15,22 +18,20 @@ const routes: RouteConfig[] = [
       'Root',
       () => (import('./Root') as unknown) as Promise<Result>,
     ),
-    prepare: params => {
-      return {
-        rootQuery: preloadQuery<RootQuery>(
-          RelayEnvironment,
-          PreloadRootQuery,
-          {
-            owner: 'facebook',
-            name: 'relay',
-          },
-          // The fetchPolicy allows us to specify whether to render from cached
-          // data if possible (store-or-network) or only fetch from network
-          // (network-only).
-          { fetchPolicy: 'store-or-network' },
-        ),
-      }
-    },
+    prepare: () => ({
+      rootQuery: preloadQuery<RootQuery>(
+        RelayEnvironment,
+        PreloadRootQuery,
+        {
+          owner: 'facebook',
+          name: 'relay',
+        },
+        // The fetchPolicy allows us to specify whether to render from cached
+        // data if possible (store-or-network) or only fetch from network
+        // (network-only).
+        { fetchPolicy: 'store-or-network' },
+      ),
+    }),
     routes: [
       {
         path: '/',
@@ -54,22 +55,37 @@ const routes: RouteConfig[] = [
          * itself - here we just reference a description of the data - the generated
          * query.
          */
-        prepare: params => {
-          return {
-            issuesQuery: preloadQuery<HomeRootIssuesQuery>(
-              RelayEnvironment,
-              PreloadIssuesQuery,
-              {
-                owner: 'facebook',
-                name: 'relay',
-              },
-              // The fetchPolicy allows us to specify whether to render from cached
-              // data if possible (store-or-network) or only fetch from network
-              // (network-only).
-              { fetchPolicy: 'store-or-network' },
-            ),
-          }
-        },
+        prepare: () => ({
+          issuesQuery: preloadQuery<HomeRootIssuesQuery>(
+            RelayEnvironment,
+            PreloadIssuesQuery,
+            {
+              owner: 'facebook',
+              name: 'relay',
+            },
+            // The fetchPolicy allows us to specify whether to render from cached
+            // data if possible (store-or-network) or only fetch from network
+            // (network-only).
+            { fetchPolicy: 'store-or-network' },
+          ),
+        }),
+      },
+      {
+        path: '/issue/:id',
+        component: JSResource(
+          'IssueDetailRoot',
+          () => (import('./IssueDetailRoot') as unknown) as Promise<Result>,
+        ),
+        prepare: params => ({
+          issueDetailQuery: preloadQuery<IssueDetailRootQuery>(
+            RelayEnvironment,
+            PreloadIssueDetailRootQuery,
+            {
+              id: params.id,
+            },
+            { fetchPolicy: 'store-or-network' },
+          ),
+        }),
       },
     ],
   },
