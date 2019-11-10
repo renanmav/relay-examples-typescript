@@ -22,7 +22,6 @@
     "relay-runtime": "7.0.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@types/history": "^4.7.3",
     "@types/jest": "24.0.21",
     "@types/node": "12.12.5",
