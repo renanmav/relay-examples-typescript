@@ -7,6 +7,7 @@ import graphql from 'babel-plugin-relay/macro'
 import { IssueDetailRootQuery } from './__generated__/IssueDetailRootQuery.graphql'
 import { PreloadedQuery } from 'react-relay/lib/relay-experimental/EntryPointTypes'
 import SuspenseImage from './SuspenseImage'
+import IssueDetailComments from './IssueDetailComments'
 
 interface Props {
   prepared: {
@@ -36,6 +37,7 @@ export default function IssueDetailRoot(props: Props) {
             body
             closed
             url
+            ...IssueDetailComments_issue
           }
         }
       }
@@ -69,6 +71,7 @@ export default function IssueDetailRoot(props: Props) {
           <ReactMarkdown source={issue.body} renderers={{ SuspenseImage }} />
         </div>
       </div>
+      <IssueDetailComments issue={issue} />
     </div>
   )
 }
