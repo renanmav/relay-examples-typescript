@@ -47,16 +47,15 @@ export default function Issues(props: Props) {
 
   return (
     <div className="issues">
-      {data &&
-        data.issues.edges!.map(edge => {
-          if (edge == null || edge.node == null) return null
+      {data?.issues.edges?.map(edge => {
+        if (edge == null || edge.node == null) return null
 
-          return (
-            <div className="issues-issue" key={edge.__id}>
-              {edge.node.title}
-            </div>
-          )
-        })}
+        return (
+          <div className="issues-issue" key={edge.__id}>
+            {edge.node.title}
+          </div>
+        )
+      })}
     </div>
   )
 }
