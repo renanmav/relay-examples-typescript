@@ -1,6 +1,6 @@
 import { preloadQuery } from 'react-relay/hooks'
 
-import JSResource, { Result } from './JSResource'
+import JSResource from './JSResource'
 import RelayEnvironment from './RelayEnvironment'
 import { RouteConfig } from './routing/createRouter'
 
@@ -14,10 +14,7 @@ import PreloadIssueDetailRootQuery, {
 
 const routes: RouteConfig[] = [
   {
-    component: JSResource(
-      'Root',
-      () => (import('./Root') as unknown) as Promise<Result>,
-    ),
+    component: JSResource('Root', () => import('./Root')),
     prepare: () => ({
       rootQuery: preloadQuery<RootQuery>(
         RelayEnvironment,
@@ -45,10 +42,7 @@ const routes: RouteConfig[] = [
          * implemented in our mini-router yet, but one can imagine iterating over all
          * the matched route entries and calling .load() on each of their components.
          */
-        component: JSResource(
-          'HomeRoot',
-          () => (import('./HomeRoot') as unknown) as Promise<Result>,
-        ),
+        component: JSResource('HomeRoot', () => import('./HomeRoot')),
         /**
          * A function to prepare the data for the `component` in parallel with loading
          * that component code. The actual data to fetch is defined by the component
@@ -72,9 +66,8 @@ const routes: RouteConfig[] = [
       },
       {
         path: '/issue/:id',
-        component: JSResource(
-          'IssueDetailRoot',
-          () => (import('./IssueDetailRoot') as unknown) as Promise<Result>,
+        component: JSResource('IssueDetailRoot', () =>
+          import('./IssueDetailRoot'),
         ),
         prepare: params => ({
           issueDetailQuery: preloadQuery<IssueDetailRootQuery>(

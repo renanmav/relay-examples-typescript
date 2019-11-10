@@ -1,11 +1,7 @@
-import { RouteComponentProps } from './routing/RoutingContext'
-
 declare const UniqueId: string
 type Loader = () => Promise<Result>
 
-export type Result = ((props: RouteComponentProps) => JSX.Element) & {
-  default?: Result
-}
+export type Result = any
 
 /**
  * A cache of resources to avoid loading the same module twice. This is important

@@ -1,10 +1,12 @@
 import React from 'react'
 import { usePreloadedQuery } from 'react-relay/hooks'
+import ReactMarkdown from 'react-markdown'
 // @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
 
 import { IssueDetailRootQuery } from './__generated__/IssueDetailRootQuery.graphql'
 import { PreloadedQuery } from 'react-relay/lib/relay-experimental/EntryPointTypes'
+import SuspenseImage from './SuspenseImage'
 
 interface Props {
   prepared: {
@@ -55,6 +57,17 @@ export default function IssueDetailRoot(props: Props) {
         >
           View on Github
         </a>
+      </div>
+      <div className="issue-comment">
+        <SuspenseImage
+          className="issue-comment-author-image"
+          title={`${issue.author?.login}'s avatar`}
+          src={issue.author?.avatarUrl as string}
+        />
+        <div className="issue-comment-author-name">{issue.author?.login}</div>
+        <div className="issue-comment-body">
+          <ReactMarkdown source={issue.body} renderers={{ SuspenseImage }} />
+        </div>
       </div>
     </div>
   )
