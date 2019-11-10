@@ -6,15 +6,26 @@ import {
 import {
   matchRoutes,
   RouteConfig as DefaultRouteConfig,
-  MatchedRoute,
 } from 'react-router-config'
-import { Router, Route, Entry, Prepared } from './RoutingContext'
+import { Router, Route, Entry } from './RoutingContext'
+import { Resource } from '../JSResource'
+import { PreloadedQuery } from 'react-relay/lib/relay-experimental/EntryPointTypes'
+import { match } from 'react-router'
 
-interface RouteConfig extends DefaultRouteConfig {
-  prepare: (params: {}) => Prepared
+export interface RouteConfig {
+  key?: React.Key
+  location?: Location
+  path?: string | string[]
+  exact?: boolean
+  strict?: boolean
+  component: Resource
+  prepare?: (params: {}) => { [queryName: string]: PreloadedQuery<any> }
+  routes?: RouteConfig[]
 }
-interface CustomMatchedRoute<T> extends MatchedRoute<T> {
+
+export interface MatchedRoute<Params extends { [K in keyof Params]?: string }> {
   route: RouteConfig
+  match: match<Params>
 }
 
 /**
@@ -67,13 +78,20 @@ export default function createRouter(
     },
     preloadCode(pathname: string) {
       // preload just the code for a route, without storing the result
-      const matches = matchRoutes(routes, pathname)
-      // @ts-ignore
-      matches.forEach(({ route }) => route.component.load())
+      const matches = (matchRoutes(
+        (routes as unknown) as DefaultRouteConfig[],
+        pathname,
+      ) as unknown) as MatchedRoute<{}>[]
+      matches.forEach(({ route }: { route: RouteConfig }) =>
+        route.component.load(),
+      )
     },
     preload(pathname: string) {
       // preload the code and data for a route, without storing the result
-      const matches = matchRoutes(routes, pathname) as CustomMatchedRoute<{}>[]
+      const matches = (matchRoutes(
+        (routes as unknown) as DefaultRouteConfig[],
+        pathname,
+      ) as unknown) as MatchedRoute<{}>[]
       prepareMatches(matches)
     },
     subscribe(cb: (arg: Route) => void) {
@@ -95,9 +113,9 @@ export default function createRouter(
  */
 function matchRoute(routes: RouteConfig[], location: Location) {
   const matchedRoutes = (matchRoutes(
-    routes,
+    (routes as unknown) as DefaultRouteConfig[],
     location.pathname,
-  ) as unknown) as CustomMatchedRoute<{}>[]
+  ) as unknown) as MatchedRoute<{}>[]
 
   if (!Array.isArray(matchedRoutes) || matchedRoutes.length === 0) {
     throw new Error('No route for ' + location.pathname)
@@ -108,14 +126,12 @@ function matchRoute(routes: RouteConfig[], location: Location) {
 /**
  * Load the data for the matched route, given the params extracted from the route
  */
-function prepareMatches(matches: CustomMatchedRoute<{}>[]): Entry[] {
+function prepareMatches(matches: MatchedRoute<{}>[]): Entry[] {
   return matches.map(match => {
     const { route, match: matchData } = match
-    const prepared = route.prepare(matchData.params)
-    // @ts-ignore
+    const prepared = route.prepare!(matchData.params)
     const Component = route.component.get()
     if (Component == null) {
-      // @ts-ignore
       route.component.load() // eagerly load
     }
     return {

@@ -3,23 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "yarn run relay; concurrently --kill-others --names \"react-scripts,relay\" \"react-scripts start\" \"yarn run relay --watch\"",
+    "build": "yarn run relay && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --fix --ext .js,.ts,.tsx",
-    "update-schema": "yarn get-graphql-schema -h \"Authorization=bearer $REACT_APP_GITHUB_AUTH_TOKEN\" https://api.github.com/graphql > schema/schema.graphql"
+    "update-schema": "yarn get-graphql-schema -h \"Authorization=bearer $REACT_APP_GITHUB_AUTH_TOKEN\" https://api.github.com/graphql > schema/schema.graphql",
+    "relay": "yarn run relay-compiler --schema schema/schema.graphql --src ./src/ $@ --language typescript"
   },
   "dependencies": {
-    "react": "^0.0.0-experimental-f6b8d31a7",
-    "react-dom": "^0.0.0-experimental-f6b8d31a7",
+    "history": "^4.10.1",
+    "react": "^0.0.0-experimental-38dd17ab9",
+    "react-dom": "^0.0.0-experimental-38dd17ab9",
     "react-markdown": "^4.2.2",
-    "react-relay": "7.0.0",
+    "react-relay": "^0.0.0-experimental-a1a40b68",
     "react-router": "^5.1.2",
     "react-router-config": "^5.1.1",
     "relay-runtime": "7.0.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@types/history": "^4.7.3",
     "@types/jest": "24.0.21",
     "@types/node": "12.12.5",

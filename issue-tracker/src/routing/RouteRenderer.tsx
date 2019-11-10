@@ -6,13 +6,13 @@ import React, {
   // @ts-ignore
   useTransition,
 } from 'react'
-import RoutingContext, { RouteComponentType } from './RoutingContext'
+import RoutingContext, { RouteComponentProps } from './RoutingContext'
 import ErrorBoundary from '../ErrorBoundary'
 import './RouteRenderer.css'
 
 const SUSPENSE_CONFIG = { timeoutMs: 2000 }
 
-export default function RouteRenderer() {
+export default function RouterRenderer() {
   // Access the router
   const router = useContext(RoutingContext)
   // Improve the route transition UX by delaying transitions: show the previous route entry
@@ -121,9 +121,8 @@ export default function RouteRenderer() {
  * our ErrorBoundary/Suspense components, so we have to ensure that the suspend/error happens
  * in a child component.
  */
-function RouteComponent(props: RouteComponentType) {
-  // @ts-ignore
-  const Component = props.component.read()
+function RouteComponent(props: RouteComponentProps) {
+  const Component = props.component!.read()
   const { routeData, prepared } = props
   return (
     <Component

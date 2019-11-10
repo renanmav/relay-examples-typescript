@@ -20,10 +20,7 @@ async function fetchRelay(
 ) {
   // Check that the auth token is configured
   const REACT_APP_GITHUB_AUTH_TOKEN = process.env.REACT_APP_GITHUB_AUTH_TOKEN
-  if (
-    REACT_APP_GITHUB_AUTH_TOKEN == null ||
-    REACT_APP_GITHUB_AUTH_TOKEN === ''
-  ) {
+  if (REACT_APP_GITHUB_AUTH_TOKEN == null) {
     throw new Error(
       'This app requires a GitHub authentication token to be configured. See readme.md for setup details.',
     )

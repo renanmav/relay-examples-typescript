@@ -1,11 +1,14 @@
 import React from 'react'
 import { History, Location } from 'history'
 import { match } from 'react-router'
-import { RouteConfig as DefaultRouteConfig } from 'react-router-config'
+import { Resource } from '../JSResource'
+import { PreloadedQuery } from 'react-relay/lib/relay-experimental/EntryPointTypes'
 
-export type Prepared = () => void
+export type PreparedQuery = {
+  [queryName: string]: PreloadedQuery<any>
+}
 
-export interface RouteComponentType extends Entry {
+export interface RouteComponentProps extends Entry {
   children?: JSX.Element
 }
 export interface Route {
@@ -13,8 +16,9 @@ export interface Route {
   entries: Entry[]
 }
 
-export interface Entry extends DefaultRouteConfig {
-  prepared: Prepared
+export interface Entry {
+  component?: Resource
+  prepared: PreparedQuery
   routeData: match<{}>
 }
 

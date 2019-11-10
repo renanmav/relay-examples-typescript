@@ -1,6 +1,9 @@
+import { RouteComponentProps } from './routing/RoutingContext'
+
 declare const UniqueId: string
 type Loader = () => Promise<Result>
-export interface Result {
+
+export type Result = ((props: RouteComponentProps) => JSX.Element) & {
   default?: Result
 }
 
@@ -16,7 +19,7 @@ const resourceMap = new Map<typeof UniqueId, Resource>()
  * A generic resource: given some method to asynchronously load a value - the loader()
  * argument - it allows accessing the state of the resource.
  */
-class Resource {
+export class Resource {
   private error: Error | null
   private loader: Loader
   private promise: Promise<Result> | null
