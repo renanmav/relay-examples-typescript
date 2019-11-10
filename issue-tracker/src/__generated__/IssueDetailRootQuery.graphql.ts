@@ -16,7 +16,9 @@ export type IssueDetailRootQueryResponse = {
     readonly body?: string
     readonly closed?: boolean
     readonly url?: unknown
-    readonly ' $fragmentRefs': FragmentRefs<'IssueDetailComments_issue'>
+    readonly ' $fragmentRefs': FragmentRefs<
+      'IssueDetailComments_issue' | 'IssueActions_issue'
+    >
   } | null
 }
 export type IssueDetailRootQuery = {
@@ -45,9 +47,15 @@ query IssueDetailRootQuery(
       closed
       url
       ...IssueDetailComments_issue
+      ...IssueActions_issue
     }
     id
   }
+}
+
+fragment IssueActions_issue on Issue {
+  id
+  closed
 }
 
 fragment IssueDetailComments_issue on Issue {
@@ -215,6 +223,11 @@ const node: ConcreteRequest = (function() {
                   name: 'IssueDetailComments_issue',
                   args: null,
                 },
+                {
+                  kind: 'FragmentSpread',
+                  name: 'IssueActions_issue',
+                  args: null,
+                },
               ],
             },
           ],
@@ -348,10 +361,10 @@ const node: ConcreteRequest = (function() {
       name: 'IssueDetailRootQuery',
       id: null,
       text:
-        'query IssueDetailRootQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Issue {\n      title\n      number\n      author {\n        __typename\n        login\n        avatarUrl\n        ... on Node {\n          id\n        }\n      }\n      body\n      closed\n      url\n      ...IssueDetailComments_issue\n    }\n    id\n  }\n}\n\nfragment IssueDetailComments_issue on Issue {\n  comments(first: 10) {\n    edges {\n      node {\n        id\n        author {\n          __typename\n          login\n          avatarUrl\n          ... on Node {\n            id\n          }\n        }\n        body\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n',
+        'query IssueDetailRootQuery(\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ... on Issue {\n      title\n      number\n      author {\n        __typename\n        login\n        avatarUrl\n        ... on Node {\n          id\n        }\n      }\n      body\n      closed\n      url\n      ...IssueDetailComments_issue\n      ...IssueActions_issue\n    }\n    id\n  }\n}\n\nfragment IssueActions_issue on Issue {\n  id\n  closed\n}\n\nfragment IssueDetailComments_issue on Issue {\n  comments(first: 10) {\n    edges {\n      node {\n        id\n        author {\n          __typename\n          login\n          avatarUrl\n          ... on Node {\n            id\n          }\n        }\n        body\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n',
       metadata: {},
     },
   }
 })()
-;(node as any).hash = '6fd004249101c40d181204e2c58d9d63'
+;(node as any).hash = '42e7a1bc529086397c84040c8f84c752'
 export default node
