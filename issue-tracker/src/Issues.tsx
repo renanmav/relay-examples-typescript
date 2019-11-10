@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { usePaginationFragment } from 'react-relay/hooks'
 // @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
@@ -19,7 +19,7 @@ export default function Issues(props: Props) {
   // at the beginning of the issues list). See the usePaginationFragment()
   // docs: https://relay.dev/docs/en/experimental/api-reference#usepaginationfragment
   // for more details about how to use this hook to paginate over lists.
-  const { data } = usePaginationFragment(
+  const { data, loadNext, isLoadingNext } = usePaginationFragment(
     graphql`
       fragment Issues_repository on Repository
         @argumentDefinitions(
@@ -45,6 +45,13 @@ export default function Issues(props: Props) {
     props.repository,
   )
 
+  // Callback to paginate the issues list
+  const loadMore = useCallback(() => {
+    // Don't fetch again if we're already loading the next page
+    if (isLoadingNext) return
+    loadNext(10)
+  }, [isLoadingNext, loadNext])
+
   return (
     <div className="issues">
       {data?.issues.edges?.map(edge => {
@@ -56,6 +63,14 @@ export default function Issues(props: Props) {
           </div>
         )
       })}
+      <button
+        name="load more issues"
+        type="button"
+        className="issues-load-more"
+        onClick={loadMore}
+      >
+        Load More
+      </button>
     </div>
   )
 }
