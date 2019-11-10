@@ -3,6 +3,8 @@ import { usePaginationFragment } from 'react-relay/hooks'
 // @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
 
+import IssueListItem from './IssueListItem'
+
 import { Issues_repository$key } from './__generated__/Issues_repository.graphql'
 
 interface Props {
@@ -35,8 +37,7 @@ export default function Issues(props: Props) {
             node {
               # Compose the data dependencies of child components
               # by spreading their fragments:
-              id
-              title
+              ...IssueListItem_issue
             }
           }
         }
@@ -59,7 +60,8 @@ export default function Issues(props: Props) {
 
         return (
           <div className="issues-issue" key={edge.__id}>
-            {edge.node.title}
+            {/* Note how we also spread IssuesListItem's fragment above */}
+            <IssueListItem issue={edge.node} />
           </div>
         )
       })}

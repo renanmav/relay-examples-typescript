@@ -33,12 +33,17 @@ query IssuesPaginationQuery(
   }
 }
 
+fragment IssueListItem_issue on Issue {
+  id
+  title
+}
+
 fragment Issues_repository_a4QoT on Repository {
   issues(after: $cursor, first: $count, states: $states) {
     edges {
       node {
+        ...IssueListItem_issue
         id
-        title
         __typename
       }
       cursor
@@ -283,7 +288,7 @@ const node: ConcreteRequest = (function() {
       name: 'IssuesPaginationQuery',
       id: null,
       text:
-        'query IssuesPaginationQuery(\n  $cursor: String\n  $count: Int = 10\n  $states: [IssueState!] = [OPEN]\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...Issues_repository_a4QoT\n    id\n  }\n}\n\nfragment Issues_repository_a4QoT on Repository {\n  issues(after: $cursor, first: $count, states: $states) {\n    edges {\n      node {\n        id\n        title\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n',
+        'query IssuesPaginationQuery(\n  $cursor: String\n  $count: Int = 10\n  $states: [IssueState!] = [OPEN]\n  $id: ID!\n) {\n  node(id: $id) {\n    __typename\n    ...Issues_repository_a4QoT\n    id\n  }\n}\n\nfragment IssueListItem_issue on Issue {\n  id\n  title\n}\n\nfragment Issues_repository_a4QoT on Repository {\n  issues(after: $cursor, first: $count, states: $states) {\n    edges {\n      node {\n        ...IssueListItem_issue\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n  id\n}\n',
       metadata: {
         derivedFrom: 'Issues_repository',
         isRefetchableQuery: true,
@@ -291,5 +296,5 @@ const node: ConcreteRequest = (function() {
     },
   }
 })()
-;(node as any).hash = '56371158ab0936e7d2b06e4c45ff62b8'
+;(node as any).hash = '97f2b1fb82f838eb80e38bcc20d765b5'
 export default node

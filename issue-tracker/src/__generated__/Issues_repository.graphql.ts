@@ -7,8 +7,7 @@ export type Issues_repository = {
     readonly edges: ReadonlyArray<{
       readonly __id: string
       readonly node: {
-        readonly id: string
-        readonly title: string
+        readonly ' $fragmentRefs': FragmentRefs<'IssueListItem_issue'>
       } | null
     } | null> | null
   }
@@ -22,14 +21,7 @@ export type Issues_repository$key = {
 }
 
 const node: ReaderFragment = (function() {
-  var v0 = ['issues'],
-    v1 = {
-      kind: 'ScalarField',
-      alias: null,
-      name: 'id',
-      args: null,
-      storageKey: null,
-    }
+  var v0 = ['issues']
   return {
     kind: 'Fragment',
     name: 'Issues_repository',
@@ -110,20 +102,17 @@ const node: ReaderFragment = (function() {
                 concreteType: 'Issue',
                 plural: false,
                 selections: [
-                  v1 /*: any*/,
-                  {
-                    kind: 'ScalarField',
-                    alias: null,
-                    name: 'title',
-                    args: null,
-                    storageKey: null,
-                  },
                   {
                     kind: 'ScalarField',
                     alias: null,
                     name: '__typename',
                     args: null,
                     storageKey: null,
+                  },
+                  {
+                    kind: 'FragmentSpread',
+                    name: 'IssueListItem_issue',
+                    args: null,
                   },
                 ],
               },
@@ -175,9 +164,15 @@ const node: ReaderFragment = (function() {
           },
         ],
       },
-      v1 /*: any*/,
+      {
+        kind: 'ScalarField',
+        alias: null,
+        name: 'id',
+        args: null,
+        storageKey: null,
+      },
     ],
   }
 })()
-;(node as any).hash = '56371158ab0936e7d2b06e4c45ff62b8'
+;(node as any).hash = '97f2b1fb82f838eb80e38bcc20d765b5'
 export default node
