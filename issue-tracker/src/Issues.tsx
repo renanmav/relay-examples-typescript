@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 import { usePaginationFragment } from 'react-relay/hooks'
-// @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
 
 import IssueListItem from './IssueListItem'

@@ -1,7 +1,5 @@
 import React, { Suspense } from 'react'
 import { usePreloadedQuery } from 'react-relay/hooks'
-// TODO: publish @types/babel-plugin-relay
-// @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
 
 import { RootQuery } from './__generated__/RootQuery.graphql'

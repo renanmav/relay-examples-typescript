@@ -1,6 +1,5 @@
 import React from 'react'
 import { useFragment } from 'react-relay/hooks'
-// @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
 
 import Link from './routing/Link'

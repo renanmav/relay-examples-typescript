@@ -1,6 +1,5 @@
 import React from 'react'
 import { usePreloadedQuery } from 'react-relay/hooks'
-// @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
 
 import { HomeRootIssuesQuery } from './__generated__/HomeRootIssuesQuery.graphql'

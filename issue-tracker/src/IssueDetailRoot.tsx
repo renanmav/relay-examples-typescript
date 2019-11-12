@@ -1,7 +1,6 @@
 import React from 'react'
 import { usePreloadedQuery } from 'react-relay/hooks'
 import ReactMarkdown from 'react-markdown'
-// @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
 
 import { IssueDetailRootQuery } from './__generated__/IssueDetailRootQuery.graphql'

@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { ConnectionHandler } from 'relay-runtime'
 import { useFragment } from 'react-relay/hooks'
-// @ts-ignore
 import graphql from 'babel-plugin-relay/macro'
 
 import useMutation from './useMutation'
