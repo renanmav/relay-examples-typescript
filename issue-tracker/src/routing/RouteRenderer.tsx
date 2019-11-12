@@ -3,7 +3,6 @@ import React, {
   useState,
   useEffect,
   Suspense,
-  // @ts-ignore
   useTransition,
 } from 'react'
 import RoutingContext, { RouteComponentProps } from './RoutingContext'

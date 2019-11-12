@@ -1,7 +1,5 @@
 import React, {
-  // @ts-ignore
   useTransition,
-  // @ts-ignore
   SuspenseList,
   useCallback,
   Suspense,
